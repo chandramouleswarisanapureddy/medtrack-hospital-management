@@ -1,0 +1,70 @@
+# ==============================================================================
+# MEDTRACK: NETLIFY DEPLOYMENT CONFIGURATION
+# SITE URL: https://luminous-starburst-5ce75d.netlify.app
+# ==============================================================================
+
+[build]
+  publish = "."
+  functions = "functions"
+
+# Security and caching headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, immutable"
+
+# Static file serving redirects for clean paths
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/appointments"
+  to = "/appointments.html"
+  status = 200
+
+[[redirects]]
+  from = "/emergency"
+  to = "/emergency.html"
+  status = 200
+
+[[redirects]]
+  from = "/patients"
+  to = "/patients.html"
+  status = 200
+
+[[redirects]]
+  from = "/doctors"
+  to = "/doctors.html"
+  status = 200
+
+[[redirects]]
+  from = "/pharmacy"
+  to = "/pharmacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/reports"
+  to = "/reports.html"
+  status = 200
+
+# Fallback redirect to index.html for unknown single-page routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

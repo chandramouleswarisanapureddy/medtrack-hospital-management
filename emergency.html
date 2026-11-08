@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Operations Center – MedTrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+      <div id="topbar-container"></div>
+
+      <main class="page-body">
+        <div class="page-header">
+          <div class="page-title">
+            <h1 style="color: var(--danger);">Emergency Operations & Auto-Rescheduling</h1>
+            <p>Declare clinical emergencies, atomically cancel affected slots, find replacement appointments & dispatch patient alerts.</p>
+          </div>
+          <div>
+            <button class="btn btn-danger" onclick="openModal('emergency-modal')">
+              ⚠️ Report Hospital Emergency
+            </button>
+          </div>
+        </div>
+
+        <!-- Emergency Operational Metrics -->
+        <div class="kpi-grid">
+          <div class="kpi-card" style="border-left: 4px solid var(--danger);">
+            <div class="kpi-info">
+              <span>Affected Appointments</span>
+              <h3 id="metric-emg-affected">0</h3>
+              <p class="kpi-subtext" style="color: var(--danger);">Batch Disrupted</p>
+            </div>
+            <div class="kpi-icon red">
+              <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="border-left: 4px solid var(--success);">
+            <div class="kpi-info">
+              <span>Auto-Rescheduled</span>
+              <h3 id="metric-emg-rescheduled" style="color: var(--success);">0</h3>
+              <p class="kpi-subtext">Replacement Slot Found</p>
+            </div>
+            <div class="kpi-icon teal">
+              <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="border-left: 4px solid var(--warning);">
+            <div class="kpi-info">
+              <span>Awaiting Manual Queue</span>
+              <h3 id="metric-emg-pending" style="color: var(--warning);">0</h3>
+              <p class="kpi-subtext">No Immediate Slot Found</p>
+            </div>
+            <div class="kpi-icon amber">
+              <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- How Automated Rescheduling Works Banner -->
+        <div class="card" style="margin-bottom: 30px; background-color: #fef2f2; border-color: #fecaca;">
+          <h4 style="color: #991b1b; margin-bottom: 8px;">Emergency Rescheduling Protocol</h4>
+          <p style="color: #7f1d1d; font-size: 0.875rem; line-height: 1.5;">
+            When an administrator reports an emergency event:
+            1) All matching confirmed appointments are marked <code>Cancelled - Emergency</code>.
+            2) The engine scans available schedule slots within the next 7 days (Priority 1: Same Doctor; Priority 2: Alternative Doctor in same Department & Branch).
+            3) A replacement appointment is created and linked to the original.
+            4) An In-App notification with old vs new date, doctor, branch, and token is delivered immediately to the patient.
+          </p>
+        </div>
+
+        <!-- Affected & Rescheduled Appointments Audit Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Emergency Affected & Replacement Appointments</h3>
+            <span class="badge badge-neutral">Live Relational Linkage</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Branch</th>
+                  <th>Date & Time</th>
+                  <th>Status / Action</th>
+                  <th>Emergency / Reschedule Reason</th>
+                </tr>
+              </thead>
+              <tbody id="emergency-affected-tbody">
+                <!-- Dynamically populated by js/emergency.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Report Emergency Modal -->
+  <div class="modal-overlay" id="emergency-modal">
+    <div class="modal-box">
+      <div class="modal-header" style="background-color: #fef2f2;">
+        <h3 style="color: #991b1b;">Report Hospital Emergency Incident</h3>
+        <button class="btn-close" onclick="closeModal('emergency-modal')">&times;</button>
+      </div>
+      <form id="emergency-form" onsubmit="handleEmergencyFormSubmit(event)">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Affected Branch *</label>
+              <select class="form-select" id="emg-branch" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Affected Doctor</label>
+              <select class="form-select" id="emg-doctor">
+                <option value="">-- All Doctors in Branch --</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Emergency Start Date *</label>
+              <input type="date" class="form-control" id="emg-start-date" value="2026-11-09" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Emergency End Date *</label>
+              <input type="date" class="form-control" id="emg-end-date" value="2026-11-09" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Time</label>
+              <input type="time" class="form-control" id="emg-start-time" value="09:00:00">
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Time</label>
+              <input type="time" class="form-control" id="emg-end-time" value="13:00:00">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Emergency Reason *</label>
+            <textarea class="form-control" id="emg-reason" rows="3" placeholder="e.g. Doctor summoned for urgent surgical trauma emergency at central unit" required>Doctor called for unexpected emergency surgery at regional trauma center</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('emergency-modal')">Cancel</button>
+          <button type="submit" class="btn btn-danger">Confirm & Trigger Auto-Rescheduling</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/emergency.js"></script>
+</body>
+</html>

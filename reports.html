@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Machine Learning Analytics – MedTrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+      <div id="topbar-container"></div>
+
+      <main class="page-body">
+        <div class="page-header">
+          <div class="page-title">
+            <h1>Multi-Branch Analytics & Machine Learning Intelligence</h1>
+            <p>Consolidated operational performance, predictive no-show models & ETL data engineering exports.</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="exportOperationalCSV()">
+              📥 Export Analytical CSV Report
+            </button>
+          </div>
+        </div>
+
+        <!-- Multi-Branch Operational Performance Table -->
+        <div class="card" style="margin-bottom: 30px;">
+          <div class="card-header">
+            <h3>Multi-Branch Performance Matrix</h3>
+            <span class="badge badge-primary">Consolidated Network Analytics</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Hospital Branch</th>
+                  <th>Total Appts</th>
+                  <th>Completed</th>
+                  <th>Emergency Events</th>
+                  <th>No-Shows</th>
+                  <th>Stock Alerts</th>
+                  <th>Est. Consultation Revenue</th>
+                </tr>
+              </thead>
+              <tbody id="branch-report-tbody">
+                <!-- Dynamically populated by js/reports.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Machine Learning Model Benchmark Comparison -->
+        <div class="card" style="margin-bottom: 30px;">
+          <div class="card-header">
+            <h3>Machine Learning Model Evaluation (Kaggle Dataset)</h3>
+            <span class="badge badge-success">Target: Appointment No-Show Prediction</span>
+          </div>
+          <p class="text-muted" style="margin-bottom: 16px; font-size: 0.875rem;">
+            Evaluation metrics computed on 2,400 holdout test samples from Kaggle's 110,527 clinical appointment dataset.
+          </p>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall (Sensitivity)</th>
+                  <th>F1-Score</th>
+                  <th>ROC-AUC</th>
+                  <th>Academic Interpretation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Logistic Regression</strong> <span class="badge badge-primary">Selected Model</span></td>
+                  <td>60.33%</td>
+                  <td>17.22%</td>
+                  <td><strong>56.81%</strong></td>
+                  <td>0.2643</td>
+                  <td><strong>0.6263</strong></td>
+                  <td><small>High clinical interpretability via learned odds ratios; robust baseline for prioritized SMS follow-up.</small></td>
+                </tr>
+                <tr>
+                  <td><strong>Random Forest Classifier</strong></td>
+                  <td>64.08%</td>
+                  <td>17.27%</td>
+                  <td>49.17%</td>
+                  <td>0.2556</td>
+                  <td>0.6099</td>
+                  <td><small>Tree ensemble capturing non-linear lead time interactions; slightly lower recall on minority no-show class.</small></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Data Engineering Pipeline Summary -->
+        <div class="card" style="background-color: #f8fafc;">
+          <div class="card-header">
+            <h3>Data Engineering Pipeline (ETL Architecture)</h3>
+            <span class="badge badge-neutral">data_engineering/pipeline.py</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            <div>
+              <h4 style="color: var(--primary); margin-bottom: 6px;">1. Extract Phase</h4>
+              <p style="font-size: 0.85rem;">Ingests transactional records across Branch A, B, and C databases, appointment logs, and pharmacy registers.</p>
+            </div>
+            <div>
+              <h4 style="color: var(--secondary); margin-bottom: 6px;">2. Transform Phase</h4>
+              <p style="font-size: 0.85rem;">Standardizes ISO timestamps, expands date dimensions, computes doctor workload distributions and revenue KPIs.</p>
+            </div>
+            <div>
+              <h4 style="color: var(--warning); margin-bottom: 6px;">3. Validate Phase</h4>
+              <p style="font-size: 0.85rem;">Enforces strict assertion checks: verifies non-negative stock levels and checks valid status enumerations.</p>
+            </div>
+            <div>
+              <h4 style="color: #6366f1; margin-bottom: 6px;">4. Load Phase</h4>
+              <p style="font-size: 0.85rem;">Exports clean analytical data marts (<code>fact_appointments.csv</code>, <code>dim_branch_performance.csv</code>) and executive summaries.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>

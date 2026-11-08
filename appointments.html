@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments – MedTrack Hospital System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+      <div id="topbar-container"></div>
+
+      <main class="page-body">
+        <div class="page-header">
+          <div class="page-title">
+            <h1>Appointment Management</h1>
+            <p>Concurrency-safe slot reservations, multi-branch scheduling & AI no-show risk assessment.</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="openModal('booking-modal')">
+              + New Appointment Booking
+            </button>
+          </div>
+        </div>
+
+        <!-- Appointments Master Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Scheduled Appointments Registry</h3>
+            <span class="badge badge-neutral">Asia/Kolkata Time Zone</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Department</th>
+                  <th>Branch</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                  <th>AI Risk Score</th>
+                </tr>
+              </thead>
+              <tbody id="appointments-table-body">
+                <!-- Dynamically populated by js/appointments.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Booking Wizard Modal -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Book Medical Appointment</h3>
+        <button class="btn-close" onclick="closeModal('booking-modal')">&times;</button>
+      </div>
+      <form id="booking-form" onsubmit="handleBookAppointmentSubmit(event)">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Hospital Branch *</label>
+              <select class="form-select" id="book-branch" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Medical Department *</label>
+              <select class="form-select" id="book-dept" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Assigned Specialist Doctor *</label>
+            <select class="form-select" id="book-doctor" required disabled>
+              <option value="">-- Select Branch & Dept First --</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Patient Full Name *</label>
+              <input type="text" class="form-control" id="book-patient-name" placeholder="e.g. Rahul Verma" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Contact Phone *</label>
+              <input type="tel" class="form-control" id="book-patient-phone" placeholder="+91 98765 43210" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Appointment Date *</label>
+              <input type="date" class="form-control" id="book-date" min="2026-11-09" value="2026-11-09" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Time Slot *</label>
+              <select class="form-select" id="book-time" required>
+                <option value="09:00:00">09:00 AM</option>
+                <option value="09:30:00">09:30 AM</option>
+                <option value="10:00:00">10:00 AM</option>
+                <option value="10:30:00">10:30 AM</option>
+                <option value="11:00:00">11:00 AM</option>
+                <option value="11:30:00">11:30 AM</option>
+                <option value="12:00:00">12:00 PM</option>
+                <option value="14:00:00">02:00 PM</option>
+                <option value="15:00:00">03:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Reason for Consultation</label>
+            <input type="text" class="form-control" id="book-reason" placeholder="e.g. Chest discomfort, routine checkup, diabetes follow-up">
+          </div>
+
+          <!-- ML Feature Inputs -->
+          <div class="card" style="background-color: #f8fafc; padding: 14px; margin-top: 10px;">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-bottom: 6px;">
+              AI NO-SHOW RISK PARAMETERS
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" style="font-size: 0.75rem;">Booking Advance Lead Days</label>
+                <input type="number" class="form-control" id="book-lead-days" value="7" min="0" max="90">
+              </div>
+              <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center; gap: 8px; margin-top: 24px;">
+                <input type="checkbox" id="book-sms-toggle" checked>
+                <label for="book-sms-toggle" style="font-size: 0.8rem; font-weight: 500;">Enable Automated SMS Reminders</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('booking-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm & Reserve Slot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/appointments.js"></script>
+</body>
+</html>

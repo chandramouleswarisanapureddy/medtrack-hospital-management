@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedTrack – Real-Time Multi-Branch Hospital System</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Emergency Ticker Alert -->
+  <div class="emergency-alert-banner" id="global-emergency-banner">
+    <div>
+      <strong>HOSPITAL NOTICE:</strong> Real-time automated emergency rescheduling and concurrency-safe slot protection active across all 3 branches.
+    </div>
+    <div>
+      <a href="emergency.html">Emergency Operations Center &rarr;</a>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation Shell -->
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+      <!-- Top Navigation Bar Shell -->
+      <div id="topbar-container"></div>
+
+      <!-- Homepage Hero Section -->
+      <section class="hero-section" style="background: linear-gradient(135deg, #0284c7, #0d9488); color: #ffffff; padding: 60px 40px; border-radius: 0 0 24px 24px;">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+          <span class="badge" style="background-color: rgba(255,255,255,0.2); color: #ffffff; margin-bottom: 16px;">
+            B.Tech Computer Science (Data Science) Academic Project
+          </span>
+          <h1 style="color: #ffffff; font-size: 2.5rem; margin-bottom: 16px; font-weight: 800;">
+            MedTrack Hospital Network
+          </h1>
+          <p style="color: #e0f2fe; font-size: 1.15rem; margin-bottom: 28px; line-height: 1.6;">
+            A centralized, real-time healthcare management system unifying patient records, automated emergency rescheduling, and predictive analytics across three specialized hospital branches.
+          </p>
+          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <a href="dashboard.html" class="btn" style="background-color: #ffffff; color: var(--primary); font-size: 1rem; padding: 12px 24px;">
+              Open Clinical Dashboard
+            </a>
+            <a href="appointments.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: #ffffff; font-size: 1rem; padding: 12px 24px;">
+              Book an Appointment
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Homepage Body -->
+      <main class="page-body">
+        
+        <!-- Three Hospital Branches Section -->
+        <div style="margin-bottom: 40px;">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <h2>Integrated Multi-Branch Network</h2>
+            <p>Select a branch to view facilities, resident specialists, and consultation schedules.</p>
+          </div>
+
+          <div class="branches-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            <!-- Branch A -->
+            <div class="card" style="border-top: 4px solid var(--primary);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3>Branch A - Metro Central</h3>
+                <span class="badge badge-primary">BRANCH-A</span>
+              </div>
+              <p style="font-size: 0.9rem; margin-bottom: 16px;">
+                45 Healthcare Boulevard, MG Road, Bengaluru.<br>
+                <strong>Phone:</strong> +91 80 2234 5678
+              </p>
+              <div style="font-size: 0.85rem; color: #475569; margin-bottom: 18px;">
+                <div>Specialties: <strong>Cardiology, General Medicine, Pediatrics</strong></div>
+                <div>Status: <span class="badge badge-success">Open (24/7 Trauma)</span></div>
+              </div>
+              <a href="appointments.html?branch=a0000000-0000-0000-0000-000000000001" class="btn btn-sm btn-primary" style="width: 100%;">
+                Book at Metro Central
+              </a>
+            </div>
+
+            <!-- Branch B -->
+            <div class="card" style="border-top: 4px solid var(--secondary);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3>Branch B - Tech City</h3>
+                <span class="badge badge-info">BRANCH-B</span>
+              </div>
+              <p style="font-size: 0.9rem; margin-bottom: 16px;">
+                12 Electronic City Phase 1, Bengaluru.<br>
+                <strong>Phone:</strong> +91 80 4455 6677
+              </p>
+              <div style="font-size: 0.85rem; color: #475569; margin-bottom: 18px;">
+                <div>Specialties: <strong>Orthopedics, Dermatology</strong></div>
+                <div>Status: <span class="badge badge-success">Open (08:00 - 20:00)</span></div>
+              </div>
+              <a href="appointments.html?branch=a0000000-0000-0000-0000-000000000002" class="btn btn-sm btn-secondary" style="width: 100%;">
+                Book at Tech City
+              </a>
+            </div>
+
+            <!-- Branch C -->
+            <div class="card" style="border-top: 4px solid var(--accent);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3>Branch C - Green Valley</h3>
+                <span class="badge badge-neutral">BRANCH-C</span>
+              </div>
+              <p style="font-size: 0.9rem; margin-bottom: 16px;">
+                88 Whitefield Main Road, Bengaluru.<br>
+                <strong>Phone:</strong> +91 80 6677 8899
+              </p>
+              <div style="font-size: 0.85rem; color: #475569; margin-bottom: 18px;">
+                <div>Specialties: <strong>Neurology, Stroke Rehab</strong></div>
+                <div>Status: <span class="badge badge-success">Open (08:30 - 18:30)</span></div>
+              </div>
+              <a href="appointments.html?branch=a0000000-0000-0000-0000-000000000003" class="btn btn-sm btn-outline" style="width: 100%;">
+                Book at Green Valley
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Architecture Highlights -->
+        <div class="card" style="margin-bottom: 40px; background-color: #f8fafc;">
+          <div class="card-header">
+            <h3>Academic Disciplines & Architecture</h3>
+            <span class="badge badge-neutral">Curriculum Integration</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div>
+              <h4 style="color: var(--primary); margin-bottom: 6px;">1. DBMS (3NF)</h4>
+              <p style="font-size: 0.85rem;">Normalized schema with unique constraint locks preventing double booking of doctor slots.</p>
+            </div>
+            <div>
+              <h4 style="color: var(--danger); margin-bottom: 6px;">2. Emergency Engine</h4>
+              <p style="font-size: 0.85rem;">Batch cancellation, automated replacement slot discovery, and patient notification dispatch.</p>
+            </div>
+            <div>
+              <h4 style="color: var(--secondary); margin-bottom: 6px;">3. Machine Learning</h4>
+              <p style="font-size: 0.85rem;">No-show probability scoring trained on Kaggle clinical appointments dataset.</p>
+            </div>
+            <div>
+              <h4 style="color: #6366f1; margin-bottom: 6px;">4. Data Engineering</h4>
+              <p style="font-size: 0.85rem;">ETL analytical pipelines consolidating multi-branch revenues and pharmacy restock alerts.</p>
+            </div>
+            <div>
+              <h4 style="color: #f59e0b; margin-bottom: 6px;">5. OS Concurrency</h4>
+              <p style="font-size: 0.85rem;">Thread mutex simulations contrasting in-memory critical sections with database ACID isolation.</p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/notifications.js"></script>
+</body>
+</html>
